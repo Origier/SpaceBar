@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0hd7v7xuo2mt"]
+
+[ext_resource type="Script" uid="uid://unr6wxryo6yf" path="res://Scripts/level.gd" id="1_0f350"]
+[ext_resource type="PackedScene" uid="uid://d4j3lbd6v0vvr" path="res://Scenes/Player.tscn" id="1_tumq0"]
+[ext_resource type="PackedScene" uid="uid://cit67arbrhn58" path="res://Scenes/wall.tscn" id="2_6phgx"]
+[ext_resource type="PackedScene" uid="uid://4k7fi1yog3xi" path="res://Scenes/platform_moving.tscn" id="2_k5f4k"]
+[ext_resource type="PackedScene" uid="uid://dpl03ss1mu7tj" path="res://Scenes/platform_idle.tscn" id="4_81xng"]
+[ext_resource type="Script" uid="uid://d3vl6qci00cob" path="res://Scripts/game_camera.gd" id="5_wqkje"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_0f350")
+
+[node name="Player" parent="." instance=ExtResource("1_tumq0")]
+position = Vector2(2, 240)
+scale = Vector2(1, 1.00301)
+jump_speed = -500
+falling_speed_requirement = 320
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Wall2" parent="Walls" instance=ExtResource("2_6phgx")]
+z_index = 1
+position = Vector2(270, -4)
+
+[node name="Wall3" parent="Walls" instance=ExtResource("2_6phgx")]
+z_index = 1
+position = Vector2(270, -1250)
+
+[node name="Wall" parent="Walls" instance=ExtResource("2_6phgx")]
+z_index = 1
+position = Vector2(-280, 0)
+
+[node name="Wall4" parent="Walls" instance=ExtResource("2_6phgx")]
+z_index = 1
+position = Vector2(-280, -1250)
+
+[node name="Platforms" type="Node2D" parent="."]
+
+[node name="PlatformIdle" parent="Platforms" instance=ExtResource("4_81xng")]
+position = Vector2(2, 261)
+
+[node name="Platform-3" parent="Platforms" instance=ExtResource("2_k5f4k")]
+position = Vector2(124, 65)
+
+[node name="Platform-4" parent="Platforms" instance=ExtResource("2_k5f4k")]
+position = Vector2(-120, -61)
+
+[node name="Platform-5" parent="Platforms" instance=ExtResource("2_k5f4k")]
+position = Vector2(126, -214)
+
+[node name="Platform-6" parent="Platforms" instance=ExtResource("2_k5f4k")]
+position = Vector2(-144, -302)
+
+[node name="Platform-2" parent="Platforms" instance=ExtResource("2_k5f4k")]
+position = Vector2(-148, 166)
+
+[node name="GameCamera" type="Camera2D" parent="."]
+script = ExtResource("5_wqkje")
+
+[node name="DifficultyTimer" type="Timer" parent="."]
+
+[connection signal="difficulty_increase" from="." to="GameCamera" method="_on_level_difficulty_increase"]
+[connection signal="timeout" from="DifficultyTimer" to="." method="_on_difficulty_timer_timeout"]
