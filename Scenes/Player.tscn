@@ -20,12 +20,8 @@ shape = SubResource("RectangleShape2D_rpqav")
 wait_time = 0.1
 one_shot = true
 
-[node name="InputBufferTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="HoldJumpTimer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="timeout" from="IdleTimer" to="." method="_on_idle_timer_timeout"]
-[connection signal="timeout" from="InputBufferTimer" to="." method="_on_input_buffer_timer_timeout"]
 [connection signal="timeout" from="HoldJumpTimer" to="." method="_on_hold_jump_timer_timeout"]
