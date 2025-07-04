@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://jlwnlmyqkgia"]
+
+[ext_resource type="Script" uid="uid://biu2xruiuvyh8" path="res://Scripts/player_ui.gd" id="1_ohrjl"]
+
+[node name="PlayerUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ohrjl")
+
+[node name="PlayerHighScore" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 133.0
+offset_bottom = 30.0
+text = "High Score:"
+
+[node name="PlayerScore" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 24.0
+offset_right = 133.0
+offset_bottom = 50.0
+text = "Score: "

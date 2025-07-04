@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://5pjliudh38ev"]
+
+[ext_resource type="Texture2D" uid="uid://qfin68rl6vqg" path="res://Assests/UI Sprite/You Died Text.png" id="1_8hps1"]
+[ext_resource type="Script" uid="uid://j05xmv1igjpk" path="res://Scenes/death_screen.gd" id="1_kcryb"]
+[ext_resource type="Texture2D" uid="uid://b0vwca3jxkls3" path="res://Assests/UI Sprite/Button - Restart.png" id="2_amiou"]
+[ext_resource type="Texture2D" uid="uid://dwx5crr8wqi4d" path="res://Assests/UI Sprite/Button - Main Menu.png" id="2_l3qio"]
+[ext_resource type="Texture2D" uid="uid://by1gu83y5l34w" path="res://Assests/UI Sprite/Button - Main Menu - Pressed.png" id="3_dmfwj"]
+[ext_resource type="Texture2D" uid="uid://0qh5q20lrnme" path="res://Assests/UI Sprite/Button - Restart - Pressed.png" id="3_vb6s7"]
+[ext_resource type="Texture2D" uid="uid://cswe87caqlud" path="res://Assests/UI Sprite/Button - Main Menu - Hover.png" id="4_r1r1s"]
+[ext_resource type="Texture2D" uid="uid://bbvahl84witnv" path="res://Assests/UI Sprite/Button - Restart - Hover.png" id="4_tpvs2"]
+[ext_resource type="Texture2D" uid="uid://cxtexu501qjn5" path="res://Assests/UI Sprite/Button - Exit.png" id="8_avkmx"]
+[ext_resource type="Texture2D" uid="uid://bg1nemcnhto2b" path="res://Assests/UI Sprite/Button - Exit - Pressed.png" id="9_kcryb"]
+[ext_resource type="Texture2D" uid="uid://b4m1qv1m13ku2" path="res://Assests/UI Sprite/Button - Exit - Hover.png" id="10_2c8yj"]
+
+[node name="DeathScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kcryb")
+
+[node name="Text" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 187.0
+offset_right = 3652.0
+offset_bottom = 2601.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_8hps1")
+
+[node name="HighScoreLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 317.0
+offset_right = 244.0
+offset_bottom = 343.0
+text = "Personal Best: "
+
+[node name="ScoreLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 339.0
+offset_right = 267.0
+offset_bottom = 365.0
+text = "Score: "
+
+[node name="MainMenuButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 450.0
+offset_right = 3241.0
+offset_bottom = 1530.0
+scale = Vector2(0.05, 0.05)
+texture_normal = ExtResource("2_l3qio")
+texture_pressed = ExtResource("3_dmfwj")
+texture_hover = ExtResource("4_r1r1s")
+
+[node name="RestartButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 390.0
+offset_right = 3241.0
+offset_bottom = 1470.0
+scale = Vector2(0.05, 0.05)
+texture_normal = ExtResource("2_amiou")
+texture_pressed = ExtResource("3_vb6s7")
+texture_hover = ExtResource("4_tpvs2")
+
+[node name="ExitButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 510.0
+offset_right = 3241.0
+offset_bottom = 1590.0
+scale = Vector2(0.05, 0.05)
+texture_normal = ExtResource("8_avkmx")
+texture_pressed = ExtResource("9_kcryb")
+texture_hover = ExtResource("10_2c8yj")
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]

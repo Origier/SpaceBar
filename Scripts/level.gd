@@ -33,8 +33,13 @@ var camera = null
 # Signal that the difficulty is increasing
 signal difficulty_increase
 var time_passed := 0
-
 var rng = RandomNumberGenerator.new()
+
+var player = null
+var player_alive = true
+# The boundry that the player is allowed to exist outside the camera without dying
+@export var camera_player_boundry := 50
+signal player_death
 
 # Create new walls based on spawning distance
 # Deletes old walls bases on spawning distance
@@ -75,18 +80,35 @@ func update_platforms():
 		platform_container.add_child(platform)
 		var next_platform_increment = rng.randf_range(platform_height_range_min, platform_height_range_max)
 		next_platform_y -= next_platform_increment
+
+# Checks if the player is within the bounds of the camera
+# Deletes the player if they are outside the bounds and produces the death screen	
+func check_player_death():
+	var camera_top = camera.position.y - (get_viewport().size[1] / 2) - camera_player_boundry
+	var camera_bottom = camera.position.y + (get_viewport().size[1] / 2) + camera_player_boundry
 	
+	# Kill the player and inform the game of the death
+	if player.position.y < camera_top or player.position.y > camera_bottom:
+		player.queue_free()
+		player_death.emit()
+		player_alive = false
+
 func _ready() -> void:
 	$DifficultyTimer.wait_time = difficulty_time_increments
 	$DifficultyTimer.start()
 	wall_container = get_node("Walls")
 	platform_container = get_node("Platforms")
+	player = get_node("Player")
 	camera = get_node("GameCamera")
+	player_alive = true
+	Global.level_loaded()
 	
 # Processes procedural generation
 func _process(_delta: float) -> void:
 	update_walls()
 	update_platforms()
+	if player_alive:
+		check_player_death()
 
 # Increases the games difficulty on the timers increments
 func _on_difficulty_timer_timeout() -> void:

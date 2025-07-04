@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 # The force applied to jumps
 @export var jump_speed := -450
+@export var jump_speed_increment := -50
 # The force applied to sideways movements
 @export var dash_speed := 300
 # The scalar applied to the held jump
@@ -28,6 +29,10 @@ enum STATE {
 # State of the state machine
 var current_state := STATE.IDLE
 
+# Players record y position - tracked for score keeping
+var player_record_y := 0.0
+signal reached_new_record_y(old_y, new_y)
+
 # Checks each frame to determine what state the player is in - changing the state machine
 func update_state():
 	if velocity.y > 0:
@@ -39,6 +44,7 @@ func update_state():
 			$IdleTimer.start() # If this expires and the velocity is still 0,0 then the player is idle
 
 func _ready():
+	player_record_y = position.y
 	current_state = STATE.IDLE
 	$HoldJumpTimer.wait_time = hold_jump_cooldown
 	
@@ -75,8 +81,11 @@ func _physics_process(delta: float) -> void:
 	if hold_flag and hold_jump_available:
 		velocity.y = 0
 		hold_timer += delta
-
-
+	if position.y < player_record_y:
+		reached_new_record_y.emit(player_record_y, position.y)
+		player_record_y = position.y
+	
+# Determines if the player is idle
 func _on_idle_timer_timeout() -> void:
 	# check again to validate the player has stopped moving
 	if velocity == Vector2.ZERO or is_on_floor():
@@ -86,3 +95,7 @@ func _on_idle_timer_timeout() -> void:
 # Resets the hold jump ability
 func _on_hold_jump_timer_timeout() -> void:
 	hold_jump_available = true
+
+# Allows the player to jump higher and faster at each difficulty increment
+func _on_level_difficulty_increase() -> void:
+	jump_speed += jump_speed_increment
