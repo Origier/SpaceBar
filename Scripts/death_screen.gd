@@ -11,6 +11,7 @@ func _on_restart_button_pressed() -> void:
 	Global.restart_button_pressed = true
 
 func _on_exit_button_pressed() -> void:
+	Global.save_high_score()
 	get_tree().quit()
 
 func _on_main_menu_button_pressed() -> void:
