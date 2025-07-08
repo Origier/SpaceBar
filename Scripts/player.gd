@@ -17,6 +17,7 @@ var hold_jump_available := true
 var hold_timer := 0.0
 # Flag to determine if to add hold time or not
 var hold_flag := false
+var game_started := false
 
 # State machine to control how the player operates in different states
 enum STATE {
@@ -49,41 +50,42 @@ func _ready():
 	$HoldJumpTimer.wait_time = hold_jump_cooldown
 	
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-	update_state()
-	var correct_state = current_state == STATE.IDLE or current_state == STATE.FALLING_FAST
-	if Input.is_action_just_pressed("jump_left") and correct_state:
-		current_state = STATE.JUMPING
-		velocity = Vector2.ZERO
-		velocity.y = jump_speed
-		velocity.x = -dash_speed
-	elif Input.is_action_just_pressed("jump_right") and correct_state:
-		current_state = STATE.JUMPING
-		velocity = Vector2.ZERO
-		velocity.y = jump_speed
-		velocity.x = dash_speed
-	elif Input.is_action_pressed("hold_jump"):
-		hold_flag = true
-	elif Input.is_action_just_released("hold_jump") and hold_flag:
-		current_state = STATE.JUMPING
-		velocity = Vector2.ZERO
-		velocity.y = jump_speed * hold_timer * hold_scalar
-		hold_timer = 0.0
-		hold_jump_available = false
-		$HoldJumpTimer.start()
-	elif Input.is_action_just_pressed("basic_jump") and correct_state:
-		current_state = STATE.JUMPING
-		velocity = Vector2.ZERO
-		velocity.y = jump_speed
-	move_and_slide()
-	# Tracking if the player is holding the space bar
-	if hold_flag and hold_jump_available:
-		velocity.y = 0
-		hold_timer += delta
-	if position.y < player_record_y:
-		reached_new_record_y.emit(player_record_y, position.y)
-		player_record_y = position.y
+	if game_started:
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+		update_state()
+		var correct_state = current_state == STATE.IDLE or current_state == STATE.FALLING_FAST
+		if Input.is_action_just_pressed("jump_left") and correct_state:
+			current_state = STATE.JUMPING
+			velocity = Vector2.ZERO
+			velocity.y = jump_speed
+			velocity.x = -dash_speed
+		elif Input.is_action_just_pressed("jump_right") and correct_state:
+			current_state = STATE.JUMPING
+			velocity = Vector2.ZERO
+			velocity.y = jump_speed
+			velocity.x = dash_speed
+		elif Input.is_action_pressed("hold_jump"):
+			hold_flag = true
+		elif Input.is_action_just_released("hold_jump") and hold_flag:
+			current_state = STATE.JUMPING
+			velocity = Vector2.ZERO
+			velocity.y = jump_speed * hold_timer * hold_scalar
+			hold_timer = 0.0
+			hold_jump_available = false
+			$HoldJumpTimer.start()
+		elif Input.is_action_just_pressed("basic_jump") and correct_state:
+			current_state = STATE.JUMPING
+			velocity = Vector2.ZERO
+			velocity.y = jump_speed
+		move_and_slide()
+		# Tracking if the player is holding the space bar
+		if hold_flag and hold_jump_available:
+			velocity.y = 0
+			hold_timer += delta
+		if position.y < player_record_y:
+			reached_new_record_y.emit(player_record_y, position.y)
+			player_record_y = position.y
 	
 # Determines if the player is idle
 func _on_idle_timer_timeout() -> void:
@@ -99,3 +101,6 @@ func _on_hold_jump_timer_timeout() -> void:
 # Allows the player to jump higher and faster at each difficulty increment
 func _on_level_difficulty_increase() -> void:
 	jump_speed += jump_speed_increment
+
+func _on_main_menu_start_game() -> void:
+	game_started = true

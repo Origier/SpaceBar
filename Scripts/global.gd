@@ -5,6 +5,7 @@ var game_difficulty := 0
 var player_score := 0
 var player_high_score := 0
 signal change_high_score(new_value)
+var restart_button_pressed := false
 
 # Loads the players high score from disk
 func load_high_score():
@@ -39,6 +40,9 @@ func save_high_score():
 
 func difficulty_increase():
 	game_difficulty += 1
+	
+func reset_game():
+	game_difficulty = 0
 
 func level_loaded():
 	var root = get_tree().current_scene

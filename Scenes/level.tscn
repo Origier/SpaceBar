@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0hd7v7xuo2mt"]
+[gd_scene load_steps=12 format=3 uid="uid://d0hd7v7xuo2mt"]
 
 [ext_resource type="Script" uid="uid://unr6wxryo6yf" path="res://Scripts/level.gd" id="1_0f350"]
 [ext_resource type="PackedScene" uid="uid://d4j3lbd6v0vvr" path="res://Scenes/Player.tscn" id="1_tumq0"]
@@ -7,7 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://dpl03ss1mu7tj" path="res://Scenes/platform_idle.tscn" id="4_81xng"]
 [ext_resource type="Script" uid="uid://d3vl6qci00cob" path="res://Scripts/game_camera.gd" id="5_wqkje"]
 [ext_resource type="PackedScene" uid="uid://jlwnlmyqkgia" path="res://Scenes/player_ui.tscn" id="7_8c0lf"]
+[ext_resource type="PackedScene" uid="uid://cy560l2xhhi1q" path="res://Scenes/controls_desktop.tscn" id="7_oqgf2"]
+[ext_resource type="PackedScene" uid="uid://5vi5cachug6f" path="res://Scenes/controls_mobile.tscn" id="7_qxfql"]
 [ext_resource type="PackedScene" uid="uid://5pjliudh38ev" path="res://Scenes/death_screen.tscn" id="8_754fn"]
+[ext_resource type="PackedScene" uid="uid://ctklcmklcqsxh" path="res://Scenes/main_menu.tscn" id="9_bvt00"]
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_0f350")
@@ -59,7 +62,16 @@ position = Vector2(-148, 166)
 [node name="GameCamera" type="Camera2D" parent="."]
 script = ExtResource("5_wqkje")
 
+[node name="ControlsMobile" parent="GameCamera" instance=ExtResource("7_qxfql")]
+visible = false
+z_index = 665
+
+[node name="ControlsDesktop" parent="GameCamera" instance=ExtResource("7_oqgf2")]
+visible = false
+z_index = 850
+
 [node name="PlayerUI" parent="GameCamera" instance=ExtResource("7_8c0lf")]
+visible = false
 z_index = 2
 offset_left = -141.0
 offset_top = -393.0
@@ -74,7 +86,10 @@ offset_top = -390.0
 offset_right = -173.0
 offset_bottom = -390.0
 
+[node name="MainMenu" parent="GameCamera" instance=ExtResource("9_bvt00")]
+
 [node name="DifficultyTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="difficulty_increase" from="." to="Player" method="_on_level_difficulty_increase"]
 [connection signal="difficulty_increase" from="." to="GameCamera" method="_on_level_difficulty_increase"]
@@ -82,4 +97,10 @@ offset_bottom = -390.0
 [connection signal="player_death" from="." to="GameCamera/DeathScreen" method="_on_level_player_death"]
 [connection signal="reached_new_record_y" from="Player" to="." method="_on_player_reached_new_record_y"]
 [connection signal="reached_new_record_y" from="Player" to="GameCamera/PlayerUI" method="_on_player_reached_new_record_y"]
+[connection signal="main_menu_pressed" from="GameCamera/ControlsMobile" to="." method="_on_controls_mobile_main_menu_pressed"]
+[connection signal="main_menu_pressed" from="GameCamera/ControlsDesktop" to="." method="_on_controls_desktop_main_menu_pressed"]
+[connection signal="controls_pressed" from="GameCamera/MainMenu" to="." method="_on_main_menu_controls_pressed"]
+[connection signal="start_game" from="GameCamera/MainMenu" to="." method="_on_main_menu_start_game"]
+[connection signal="start_game" from="GameCamera/MainMenu" to="Player" method="_on_main_menu_start_game"]
+[connection signal="start_game" from="GameCamera/MainMenu" to="GameCamera" method="_on_main_menu_start_game"]
 [connection signal="timeout" from="DifficultyTimer" to="." method="_on_difficulty_timer_timeout"]

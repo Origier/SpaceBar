@@ -1,7 +1,8 @@
 extends Node2D
 
 # Time in seconds between difficulty increments
-@export var difficulty_time_increments := 10
+@export var difficulty_time_increments := 5
+@export var difficulty_time_increment_increased := 2
 # Wall Spawning controls
 @export var wall_height := 1250
 @export var wall_left_x := -280
@@ -93,9 +94,11 @@ func check_player_death():
 		player_death.emit()
 		player_alive = false
 
-func _ready() -> void:
+func play_game() -> void:
 	$DifficultyTimer.wait_time = difficulty_time_increments
 	$DifficultyTimer.start()
+
+func _ready() -> void:
 	wall_container = get_node("Walls")
 	platform_container = get_node("Platforms")
 	player = get_node("Player")
@@ -112,4 +115,28 @@ func _process(_delta: float) -> void:
 
 # Increases the games difficulty on the timers increments
 func _on_difficulty_timer_timeout() -> void:
+	difficulty_time_increments += difficulty_time_increment_increased
+	$DifficultyTimer.wait_time = difficulty_time_increments
+	$DifficultyTimer.start()
 	difficulty_increase.emit()
+
+func _on_main_menu_start_game() -> void:
+	$GameCamera/MainMenu.visible = false
+	$GameCamera/PlayerUI.visible = true
+	play_game()
+
+func _on_main_menu_controls_pressed() -> void:
+	$GameCamera/MainMenu.visible = false
+	var os = OS.get_name()
+	if os != "Android" and os != "iOS":
+		$GameCamera/ControlsDesktop.visible = true
+	else:
+		$GameCamera/ControlsMobile.visible = true
+
+func _on_controls_desktop_main_menu_pressed() -> void:
+	$GameCamera/MainMenu.visible = true
+	$GameCamera/ControlsDesktop.visible = false
+
+func _on_controls_mobile_main_menu_pressed() -> void:
+	$GameCamera/MainMenu.visible = true
+	$GameCamera/ControlsMobile.visible = false

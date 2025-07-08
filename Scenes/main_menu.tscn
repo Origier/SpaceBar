@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctklcmklcqsxh"]
+
+[ext_resource type="Texture2D" uid="uid://btby4htcfr7py" path="res://Assests/UI Sprite/Main Menu Text.png" id="1_cp0ys"]
+[ext_resource type="Script" uid="uid://lps7fnydn1ml" path="res://Scripts/main_menu.gd" id="1_yhxw7"]
+[ext_resource type="Texture2D" uid="uid://sc35airvosv" path="res://Assests/UI Sprite/Button - Start.png" id="2_yhxw7"]
+[ext_resource type="Texture2D" uid="uid://cmg02ruwbqnyj" path="res://Assests/UI Sprite/Button - Start - Pressed.png" id="3_trj04"]
+[ext_resource type="Texture2D" uid="uid://bf7381i0mumpc" path="res://Assests/UI Sprite/Button - Start - Hover.png" id="4_16hvj"]
+[ext_resource type="Texture2D" uid="uid://h0ptdehm0bgb" path="res://Assests/UI Sprite/Button - Controls.png" id="5_vr1f0"]
+[ext_resource type="Texture2D" uid="uid://ctxe8787ud2vs" path="res://Assests/UI Sprite/Button - Controls - Pressed.png" id="6_t1dhk"]
+[ext_resource type="Texture2D" uid="uid://k5be6iwew5vh" path="res://Assests/UI Sprite/Button - Controls - Hover.png" id="7_5egv6"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yhxw7")
+
+[node name="TitleText" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 87.0
+offset_top = 259.0
+offset_right = 3508.0
+offset_bottom = 1584.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("1_cp0ys")
+
+[node name="StartButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 108.0
+offset_top = 404.0
+offset_right = 2885.0
+offset_bottom = 684.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.05, 0.05)
+texture_normal = ExtResource("2_yhxw7")
+texture_pressed = ExtResource("3_trj04")
+texture_hover = ExtResource("4_16hvj")
+
+[node name="ControlsButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 108.0
+offset_top = 469.0
+offset_right = 2885.0
+offset_bottom = 749.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.05, 0.05)
+texture_normal = ExtResource("5_vr1f0")
+texture_pressed = ExtResource("6_t1dhk")
+texture_hover = ExtResource("7_5egv6")
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ControlsButton" to="." method="_on_controls_button_pressed"]
