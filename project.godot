@@ -13,7 +13,7 @@ config_version=5
 config/name="SpaceBar"
 run/main_scene="uid://d0hd7v7xuo2mt"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://4xdtayati2w"
 
 [autoload]
 
@@ -21,9 +21,10 @@ Global="*res://Scripts/global.gd"
 
 [display]
 
-window/size/viewport_width=360
-window/size/viewport_height=800
+window/size/viewport_width=1440
+window/size/viewport_height=2960
 window/size/resizable=false
+window/handheld/orientation=1
 
 [editor]
 
@@ -90,3 +91,4 @@ hold_jump={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

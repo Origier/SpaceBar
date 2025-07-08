@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfsq4upjghtse"]
+
+[ext_resource type="Texture2D" uid="uid://bv744otd2yl2v" path="res://Assests/UI Sprite/Jump Right.png" id="1_aonlu"]
+[ext_resource type="Texture2D" uid="uid://dr2xppi7o65ss" path="res://Assests/UI Sprite/Jump Left.png" id="2_m8g2w"]
+[ext_resource type="Texture2D" uid="uid://dn8vsfhgooqjc" path="res://Assests/UI Sprite/Charge Jump.png" id="3_n8540"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aonlu"]
+size = Vector2(400, 800)
+
+[node name="TouchInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JumpRight" type="TouchScreenButton" parent="."]
+position = Vector2(265, 690)
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("1_aonlu")
+action = "jump_right"
+
+[node name="JumpLeft" type="TouchScreenButton" parent="."]
+position = Vector2(-20, 690)
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("2_m8g2w")
+action = "jump_left"
+
+[node name="ChargeJump" type="TouchScreenButton" parent="."]
+position = Vector2(120, 739)
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("3_n8540")
+action = "hold_jump"
+
+[node name="BasicJump" type="TouchScreenButton" parent="."]
+position = Vector2(180, 400)
+shape = SubResource("RectangleShape2D_aonlu")
+action = "basic_jump"
+visibility_mode = 1

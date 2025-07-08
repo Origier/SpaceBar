@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 # The force applied to jumps
-@export var jump_speed := -450
-@export var jump_speed_increment := -50
+@export var jump_speed := -1500
+@export var jump_speed_increment := -100
 # The force applied to sideways movements
-@export var dash_speed := 300
+@export var dash_speed := 450
 # The scalar applied to the held jump
 @export var hold_scalar := 3
 # The required downward velocity to allow jumping to continue
@@ -52,7 +52,7 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	if game_started:
 		if not is_on_floor():
-			velocity += get_gravity() * delta
+			velocity += get_gravity() * delta * 2.5
 		update_state()
 		var correct_state = current_state == STATE.IDLE or current_state == STATE.FALLING_FAST
 		if Input.is_action_just_pressed("jump_left") and correct_state:

@@ -19,6 +19,8 @@ var wall_scene = load(wall_scene_path)
 @export var platform_height_range_min := 100
 @export var platform_height_range_max := 150
 @export var platform_scene_path := "res://Scenes/platform_moving.tscn"
+# Flag to roughly determine which side of the game the platform should favor
+var platform_left_spawn_flag := false
 # Added boundry to top and bottom of camera viewport for spawning / despawning platforms
 @export var camera_spawn_boundry := 100
 # Marks the next location for a platform to spawn at
@@ -39,7 +41,7 @@ var rng = RandomNumberGenerator.new()
 var player = null
 var player_alive = true
 # The boundry that the player is allowed to exist outside the camera without dying
-@export var camera_player_boundry := 50
+@export var camera_player_boundry := -500
 signal player_death
 
 # Create new walls based on spawning distance
@@ -77,7 +79,12 @@ func update_platforms():
 	if camera_top <= next_platform_y:
 		var platform = platform_scene.instantiate()
 		platform.position.y = next_platform_y
-		platform.position.x = rng.randf_range(platform_min_x_boundary, platform_max_x_boundary)
+		if platform_left_spawn_flag:
+			platform.position.x = rng.randf_range(platform_min_x_boundary, 0)
+			platform_left_spawn_flag = false
+		else:
+			platform.position.x = rng.randf_range(0, platform_max_x_boundary)
+			platform_left_spawn_flag = true
 		platform_container.add_child(platform)
 		var next_platform_increment = rng.randf_range(platform_height_range_min, platform_height_range_max)
 		next_platform_y -= next_platform_increment
@@ -123,6 +130,9 @@ func _on_difficulty_timer_timeout() -> void:
 func _on_main_menu_start_game() -> void:
 	$GameCamera/MainMenu.visible = false
 	$GameCamera/PlayerUI.visible = true
+	var os = OS.get_name()
+	if os == "Android" or os == "iOS":
+		$GameCamera/TouchInterface.visible = true
 	play_game()
 
 func _on_main_menu_controls_pressed() -> void:
@@ -132,6 +142,7 @@ func _on_main_menu_controls_pressed() -> void:
 		$GameCamera/ControlsDesktop.visible = true
 	else:
 		$GameCamera/ControlsMobile.visible = true
+	
 
 func _on_controls_desktop_main_menu_pressed() -> void:
 	$GameCamera/MainMenu.visible = true

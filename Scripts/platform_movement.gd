@@ -53,7 +53,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if current_state == STATE.MOVING_LEFT:
 		position.x -= platform_speed * delta
-		constant_linear_velocity = Vector2(-platform_speed, 0)
+		constant_linear_velocity = Vector2(-platform_speed * 2.5, 0)
 		if position.x <= platform_min_x:
 			constant_linear_velocity = Vector2(0, 0)
 			current_state = STATE.IDLE
@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 
 	if current_state == STATE.MOVING_RIGHT:
 		position.x += platform_speed * delta
-		constant_linear_velocity = Vector2(platform_speed, 0)
+		constant_linear_velocity = Vector2(platform_speed * 2.5, 0)
 		if position.x >= platform_max_x:
 			constant_linear_velocity = Vector2(0, 0)
 			current_state = STATE.IDLE

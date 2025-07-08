@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://5vi5cachug6f"]
 
-[ext_resource type="Script" uid="uid://gaf5htiaaqey" path="res://Scripts/controls_desktop.gd" id="1_ov1io"]
+[ext_resource type="Script" uid="uid://b2sh7tswahbg" path="res://Scenes/controls_mobile.gd" id="1_sxrq7"]
 [ext_resource type="Texture2D" uid="uid://bebaifu3aefcd" path="res://Assests/UI Sprite/Controls - Mobile.png" id="2_twqt1"]
 [ext_resource type="Texture2D" uid="uid://dwx5crr8wqi4d" path="res://Assests/UI Sprite/Button - Main Menu.png" id="3_sxrq7"]
 [ext_resource type="Texture2D" uid="uid://by1gu83y5l34w" path="res://Assests/UI Sprite/Button - Main Menu - Pressed.png" id="4_pd0g5"]
@@ -13,7 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ov1io")
+script = ExtResource("1_sxrq7")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -36,7 +36,11 @@ offset_left = 99.0
 offset_top = 697.0
 offset_right = 2876.0
 offset_bottom = 977.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(0.05, 0.05)
 texture_normal = ExtResource("3_sxrq7")
 texture_pressed = ExtResource("4_pd0g5")
 texture_hover = ExtResource("5_imy1x")
+
+[connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]
